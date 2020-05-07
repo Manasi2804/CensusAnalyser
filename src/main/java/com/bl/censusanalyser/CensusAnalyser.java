@@ -1,5 +1,7 @@
 package com.bl.censusanalyser;
 
+import com.bl.censusanalyser.builder.CSVBuilderFactory;
+import com.bl.censusanalyser.builder.ICSVBuilder;
 import com.bl.censusanalyser.dao.CensusDAO;
 import com.bl.censusanalyser.exception.CSVBuilderException;
 import com.bl.censusanalyser.model.IndiaStateCensusCSV;
@@ -13,10 +15,8 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class CensusAnalyser<T> {
-
     List<T> csvFileList = null;
     Map<Object, T> csvStateCodeMap = new HashMap<>();
-
     // Read State Census Data CSV file
     public int loadCensusData(String csvFilePath, Class<T> csvClass) throws CSVBuilderException {
         try {

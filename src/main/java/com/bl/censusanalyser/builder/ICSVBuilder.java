@@ -1,4 +1,4 @@
-package com.bl.censusanalyser;
+package com.bl.censusanalyser.builder;
 
 import com.bl.censusanalyser.exception.CSVBuilderException;
 
