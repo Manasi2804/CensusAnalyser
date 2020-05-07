@@ -13,6 +13,7 @@ import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Paths;
 import java.util.*;
+import java.util.stream.StreamSupport;
 
 public class CensusAnalyser {
     ICSVBuilder csvBuilder = new CSVBuilderFactory().createCSVBuilder();
@@ -41,12 +42,13 @@ public class CensusAnalyser {
     public int loadStateCodeData(String filePath) throws IOException, CSVBuilderException {
         try (Reader reader = Files.newBufferedReader(Paths.get(filePath))) {
             Iterator<CSVStateCode> csvFileIterator = csvBuilder.getCSVFileIterator(reader, CSVStateCode.class);
-            Integer count = 0;
-            while (csvFileIterator.hasNext()) {
-                IndiaCensusDAO indiaCensusDAO = new IndiaCensusDAO(csvFileIterator.next());
-                this.censusHashMap.put(count, indiaCensusDAO);
-                count++;
-            }
+            Iterable<CSVStateCode> csvIterable = () -> csvFileIterator;
+            final Integer[] count = {0};
+            StreamSupport.stream(csvIterable.spliterator(), false)
+                    .forEach(censusCSV -> {
+                        censusHashMap.put(count[0], new IndiaCensusDAO(censusCSV));
+                        count[0]++;
+                    });
             return this.censusHashMap.size();
         } catch (NoSuchFileException e) {
             throw new CSVBuilderException(CSVBuilderException.ExceptionType.ENTERED_WRONG_FILE_NAME,
