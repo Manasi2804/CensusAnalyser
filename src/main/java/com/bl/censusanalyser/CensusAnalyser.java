@@ -3,20 +3,21 @@ package com.bl.censusanalyser;
 import com.bl.censusanalyser.exception.CSVBuilderException;
 import com.bl.censusanalyser.model.CSVStateCensus;
 import com.bl.censusanalyser.model.CSVStateCode;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Paths;
-import java.util.Iterator;
+import java.util.List;
 
 public class CensusAnalyser {
     ICSVBuilder csvBuilder = new CSVBuilderFactory().createCSVBuilder();
     public int loadStateCensusCSVFileData(String filePath) throws CSVBuilderException, IOException {
         try (Reader reader = Files.newBufferedReader(Paths.get(filePath))) {
-            Iterator<CSVStateCensus> csvRecords = csvBuilder.getCSVFileIterator(reader, CSVStateCensus.class);
-            return csvBuilder.getCount(csvRecords);
+            List<CSVStateCensus> csvRecords = csvBuilder.getCSVFileList(reader, CSVStateCensus.class);
+            return csvRecords.size();
         } catch (NoSuchFileException e) {
             throw new CSVBuilderException(CSVBuilderException.ExceptionType.ENTERED_WRONG_FILE_NAME,
                     "FILE NAME IS INCORRECT");
@@ -28,8 +29,8 @@ public class CensusAnalyser {
         public int loadStateCodeCSVFileData (String filePath) throws IOException, CSVBuilderException
         {
             try (Reader reader = Files.newBufferedReader(Paths.get(filePath))) {
-                Iterator<CSVStateCode> csvRecords = csvBuilder.getCSVFileIterator(reader, CSVStateCode.class);
-                return csvBuilder.getCount(csvRecords);
+                List<CSVStateCode> csvRecords = csvBuilder.getCSVFileList(reader, CSVStateCode.class);
+                return csvRecords.size();
             } catch (NoSuchFileException e) {
                 throw new CSVBuilderException(CSVBuilderException.ExceptionType.ENTERED_WRONG_FILE_NAME,
                         "FILE NAME IS INCORRECT");
