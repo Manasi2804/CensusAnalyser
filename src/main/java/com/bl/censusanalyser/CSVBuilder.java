@@ -27,5 +27,4 @@ public class CSVBuilder implements ICSVBuilder {
     public <T> Iterator<T> getFileIterator(BufferedReader reader, Class<T> csvClass) {
         return null;
     }
-
 }
