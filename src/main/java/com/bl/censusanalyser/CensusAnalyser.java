@@ -100,4 +100,14 @@ public class CensusAnalyser {
         }
         return sortedByValue;
     }
+    public String getStatePopulationWiseSortedData() throws CSVBuilderException {
+        if (censusHashMap == null || censusHashMap.size() == 0)
+            throw new CSVBuilderException(CSVBuilderException.ExceptionType.NO_CENSUS_DATA, "Data empty");
+        Comparator<Map.Entry<Integer, IndiaCensusDAO>> censusComparator = Comparator.comparing(census -> census.getValue().population);
+        LinkedHashMap<Integer, IndiaCensusDAO> sortedByValue = this.sort(censusComparator);
+        List<IndiaCensusDAO> sortedList = new ArrayList<IndiaCensusDAO>(sortedByValue.values());
+        Collections.reverse(sortedList);
+        String sortedStatePopulationJson = new Gson().toJson(sortedList);
+        return sortedStatePopulationJson;
+    }
 }
