@@ -6,38 +6,33 @@ public class USCensus {
 
     @CsvBindByName(column = "State Id")
     public String stateID;
-
     @CsvBindByName(column = "State")
     public String state;
-
     @CsvBindByName(column = "Population")
-    public long population;
-
+    public Integer population;
     @CsvBindByName(column = "Total area")
-    public double area;
-
+    public Double area;
     @CsvBindByName(column = "Population Density")
-    public float populationDensity;
+    public Double populationDensity;
 
-    public USCensus() {
-    }
+    public USCensus(Integer stateCode, String state, Integer population, double areaInSqKm, double densityPerSqkm) {
+        }
 
-    public USCensus(String stateID, String state, long population, double area, float populationDensity) {
-        this.stateID = stateID;
-        this.state = state;
-        this.population = population;
-        this.area = area;
-        this.populationDensity = populationDensity;
+    public USCensus(String stateCode, String state, Integer population, Double area, Double populationDensity) {
+            this.stateID = stateCode;
+            this.state = state;
+            this.population = population;
+            this.area = area;
+            this.populationDensity = populationDensity;
+        }
+        @Override
+        public String toString() {
+            return "USCensus{" +
+                    "stateID='" + stateID + '\'' +
+                    ", state='" + state + '\'' +
+                    ", population=" + population +
+                    ", area=" + area +
+                    ", populationDensity='" + populationDensity + '\'' +
+                    '}';
+        }
     }
-
-    @Override
-    public String toString() {
-        return "USCensus{" +
-                "stateID='" + stateID + '\'' +
-                ", state='" + state + '\'' +
-                ", population=" + population +
-                ", area=" + area +
-                ", populationDensity='" + populationDensity + '\'' +
-                '}';
-    }
-}
