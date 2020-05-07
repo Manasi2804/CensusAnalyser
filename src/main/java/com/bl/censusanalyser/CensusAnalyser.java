@@ -12,6 +12,7 @@ public class CensusAnalyser {
     ICSVBuilder csvBuilder = new CSVBuilderFactory().createCSVBuilder();
     Collection<CensusDAO> censusRecords = null;
     HashMap<Integer, CensusDAO> censusHashMap = new HashMap<>();
+
     public enum COUNTRY {INDIA, US}
     public int loadCensusData(COUNTRY country, String... filePath) throws IOException, CSVBuilderException {
         CensusAdapter censusDataLoader = CensusAdapterFactory.getCensusData(country);
